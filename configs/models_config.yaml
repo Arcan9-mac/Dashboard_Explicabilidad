@@ -1,0 +1,27 @@
+yolov7-base:
+  type: yolov7
+  weights_path: "weights/yolov7_training.pt"
+  dataset_path: "data/validation_set"
+  class_names: ['suciedad', 'paja']
+  feature_layers: # Nombres o índices de capas interesantes para este modelo
+    backbone: 10
+    neck: 50
+    head_small: 102
+    head_medium: 103
+    head_large: 104
+  target_layer: 75
+
+yolov8-nano:
+  type: yolov8
+  weights_path: "weights/best.pt"
+  dataset_path: "data/validation_set"
+  class_names: ['suciedad', 'paja']
+  feature_layers: # En v8, los nombres de las capas pueden ser diferentes
+    backbone: 'model.4' # Ejemplo, necesitarás investigar la arquitectura
+    neck: 'model.15'
+    head: 'model.22'
+
+# y cuando salga yolov11...
+# yolov11-small:
+#   type: yolov11
+#   ...etc

@@ -1,0 +1,7 @@
+streamlit
+torch
+torchvision
+opencv-python-headless
+numpy
+pyyaml
+ultralytics  # Para YOLOv8 y superiores
