@@ -1,6 +1,6 @@
 yolov7-base:
   type: yolov7
-  weights_path: "weights/yolov7_training.pt"
+  weights_path: "weights/best.pt"
   dataset_path: "data/validation_set"
   class_names: ['suciedad', 'paja']
   feature_layers: # Nombres o índices de capas interesantes para este modelo
@@ -9,7 +9,7 @@ yolov7-base:
     head_small: 102
     head_medium: 103
     head_large: 104
-  target_layer: 75
+  target_layer: 30
 
 yolov8-nano:
   type: yolov8

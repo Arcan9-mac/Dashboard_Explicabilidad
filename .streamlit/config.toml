@@ -1,0 +1,17 @@
+# .streamlit/config.toml
+
+[theme]
+# Un fondo muy oscuro, casi negro con un toque de verde.
+backgroundColor="#1E2A21"
+
+# Un fondo secundario ligeramente más claro pero aún muy oscuro.
+secondaryBackgroundColor="#2A3A2F"
+
+# Color del texto principal (se mantiene blanco para contraste).
+textColor="#FFFFFF"
+
+# Un color de acento mucho más apagado y menos saturado (verde oliva/salvia oscuro).
+primaryColor="#6A8A74"
+
+# Fuente a utilizar.
+font="sans serif"
