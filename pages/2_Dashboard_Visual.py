@@ -77,6 +77,7 @@ def generate_all_visuals(config):
 
 
 grid_content = generate_all_visuals(config)
+st.session_state['grid_content'] = grid_content
 
 # --- Creación de la Cuadrícula 4x3 ---
 COLS, ROWS = 4, 4
