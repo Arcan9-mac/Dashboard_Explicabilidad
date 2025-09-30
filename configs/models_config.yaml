@@ -2,13 +2,13 @@ yolov7-base:
   type: yolov7
   weights_path: "weights/best.pt"
   dataset_path: "data/validation_set"
-  class_names: ['suciedad', 'paja']
+  class_names: ['paja', 'suciedad']
   feature_layers: # Nombres o índices de capas interesantes para este modelo
-    backbone: 10
-    neck: 50
-    head_small: 102
-    head_medium: 103
-    head_large: 104
+    backbone (Capa 10): 10
+    neck (Capa 50): 50
+    head_small (Capa 102): 102
+    head_medium (Capa 103): 103
+    head_large (Capa 104): 104
   target_layer: 30
 
 yolov8-nano:

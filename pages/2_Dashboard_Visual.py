@@ -3,16 +3,15 @@ import os
 import streamlit as st
 from PIL import Image
 
+# Importamos las funciones actualizadas
+from utils.visualization import generate_feature_maps_images, generate_grad_cam_image, GRAD_CAM_AVAILABLE
 from utils.model_loader import (load_model, get_predictions,
                                 draw_prediction_boxes, draw_ground_truth_boxes)
 from utils.processing import prepare_image
-from utils.visualization import generate_feature_maps_images, generate_grad_cam_image
 
 st.set_page_config(page_title="Dashboard Visual", layout="wide")
 
-# Ya no necesitamos inyectar CSS aquí. El archivo config.toml lo maneja todo.
-
-# Notificaciones
+# Notificaciones... (sin cambios)
 if 'notifications' in st.session_state and st.session_state.notifications:
     for n in st.session_state.notifications: st.toast(n, icon="🎉")
     st.session_state.notifications = []
@@ -48,8 +47,22 @@ def generate_all_visuals(config):
                          draw_prediction_boxes(img_rgb, predictions, tensor_shape, config['class_names'])))
 
     if config.get('show_grad_cam'):
-        grad_cam_result = generate_grad_cam_image(model, img_rgb, img_tensor, geometry_info, 75)
-        if grad_cam_result: content_list.append(grad_cam_result)
+        if not GRAD_CAM_AVAILABLE:
+             st.error("La librería 'grad-cam' no se pudo importar. Por favor, revisa la instalación en tu entorno.")
+        else:
+            # <<< USAMOS LA LISTA DE CAPAS SEGURAS DEL NOTEBOOK >>>
+            cam_targets = {
+                "Backbone (24)": 24, "Backbone (50)": 50, "SPPCSPC (51)": 51,
+                "Neck (75)": 75, "Neck (88)": 88, "Neck (101)": 101,
+                "Head (104)": 104,
+            }
+            for name, layer_idx in cam_targets.items():
+                # <<< LLAMADA A LA FUNCIÓN ACTUALIZADA (SIN 'predictions') >>>
+                cam_result = generate_grad_cam_image(model, img_rgb, img_tensor, geometry_info, layer_idx)
+                if cam_result:
+                    # El nombre ahora viene de la función, asegurando que sea "EigenCAM"
+                    label, image = cam_result
+                    content_list.append((label, image))
 
     try:
         content_list.append(("Arquitectura YOLOv7", Image.open("Images/yolo7_arq.webp")))
@@ -66,7 +79,7 @@ def generate_all_visuals(config):
 grid_content = generate_all_visuals(config)
 
 # --- Creación de la Cuadrícula 4x3 ---
-COLS, ROWS = 4, 3
+COLS, ROWS = 4, 4
 for i in range(ROWS):
     cols = st.columns(COLS)
     for j in range(COLS):
